@@ -46,7 +46,6 @@ if TWILIO_TO_NUM and TWILIO_FROM_NUM and TWILIO_SID and TWILIO_AUTH:
 print("Sistema operativo: {}".format(platform))
 if platform == OS_WIN:
     from win10toast import ToastNotifier
-
     toast = ToastNotifier()
 
 
