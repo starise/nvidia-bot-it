@@ -1,17 +1,21 @@
 # nvidia-bot-it
 
-Bot per controllare automaticamente la disponibilità delle nuove schede Nvidia GeForce RTX 3080, RTX 3090 e RTX 3070, direttamente dal sito web dello [store Nvidia](https://www.nvidia.com/it-it/shop/).
+Controlla automaticamente la disponibilità delle nuove schede Nvidia GeForce RTX 3080, RTX 3090 e RTX 3070, direttamente dal sito web dello [store Nvidia](https://www.nvidia.com/it-it/shop/).
 
-Può inviare SMS attraverso Twilio (va bene un account di prova) per notificare la disponibilità.
+Ricevi notifiche in tempo reale sulla disponibilità dei prodotti:
+
+- **SMS** via Twilio (anche con saldo di prova gratuito)
+- **E-mail** via SendGrid (100 e-mail gratuite al giorno)
 
 ## Requisiti
 
 - [Python 3](https://www.python.org/downloads/)
 - [pip](https://pip.pypa.io/en/stable/installing/) (per installare le dipendenze)
 
-## Componenti opzionali
+## Requisiti opzionali
 
 - Supporto SMS: [Account Twilio](https://www.twilio.com/try-twilio)
+- Supporto E-mail: [Account SendGrid](https://sendgrid.com/free/)
 
 ## Installazione
 
@@ -36,7 +40,7 @@ Su alcuni sistemi Mac e Linux, il comando corretto è:
 python3 nvidia-bot.py
 ```
 
-## Test per le notifiche (Toast/Twilio)
+## Test per le notifiche (Toast/Twilio/SendGrid)
 
 ```
 python nvidia-bot.py test

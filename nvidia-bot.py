@@ -17,10 +17,14 @@ OS_MAC = "Darwin"
 # Set up environment variables and constants.
 load_dotenv(path.join(sys.path[0], '.env'))
 USE_TWILIO = False
+USE_SENDGRID = False
 TWILIO_TO_NUM = getenv('TWILIO_TO_NUM')
 TWILIO_FROM_NUM = getenv('TWILIO_FROM_NUM')
 TWILIO_SID = getenv('TWILIO_SID')
 TWILIO_AUTH = getenv('TWILIO_AUTH')
+SENDGRID_API_KEY = getenv('SENDGRID_API_KEY')
+SENDGRID_FROM = getenv('SENDGRID_FROM')
+SENDGRID_TO = getenv('SENDGRID_TO')
 ALERT_DELAY = int(getenv('ALERT_DELAY'))
 MIN_DELAY = int(getenv('MIN_DELAY'))
 MAX_DELAY = int(getenv('MAX_DELAY'))
@@ -38,6 +42,19 @@ if TWILIO_TO_NUM and TWILIO_FROM_NUM and TWILIO_SID and TWILIO_AUTH:
 
     from twilio.rest import Client
     client = Client(TWILIO_SID, TWILIO_AUTH)
+
+    print("OK!")
+
+# SendGrid Setup
+if SENDGRID_API_KEY and SENDGRID_FROM and SENDGRID_TO:
+    USE_SENDGRID = True
+
+    print("Configurazione di SendGrid in corso... ", end='')
+
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail
+
+    SendGridClient = SendGridAPIClient(SENDGRID_API_KEY)
 
     print("OK!")
 
@@ -67,12 +84,14 @@ def get_status(site):
 
 def send_alert(site):
     product = site.get('name')
+    product_url = site.get('url')
     print("{} DISPONIBILE".format(product))
-    print(site.get('url'))
+    print(product_url)
     if OPEN_WEB_BROWSER:
-        webbrowser.open(site.get('url'), new=1)
-    os_notification("{} DISPONIBILE".format(product), site.get('url'))
-    sms_notification("DISPONIBILE: " + site.get('url'))
+        webbrowser.open(product_url, new=1)
+    os_notification("{} DISPONIBILE".format(product), product_url)
+    sms_notification("DISPONIBILE: " + product_url)
+    mail_notification("{} DISPONIBILE".format(product), "Link: <a>{}</a>".format(product_url))
 
 
 def os_notification(title, text):
@@ -92,6 +111,21 @@ def os_notification(title, text):
 def sms_notification(url):
     if USE_TWILIO:
         client.messages.create(to=TWILIO_TO_NUM, from_=TWILIO_FROM_NUM, body=url)
+
+
+def mail_notification(subject, content):
+    if USE_SENDGRID:
+
+        message = Mail(
+            from_email=SENDGRID_FROM,
+            to_emails=SENDGRID_TO,
+            subject=subject,
+            html_content=content)
+        try:
+            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            response = sg.send(message)
+        except Exception as e:
+            print(e.message)
 
 
 def main():
