@@ -15,7 +15,7 @@ OS_LIN = "Linux"
 OS_MAC = "Darwin"
 
 # Set up environment variables and constants.
-load_dotenv()
+load_dotenv(path.join(sys.path[0], '.env'))
 USE_TWILIO = False
 TWILIO_TO_NUM = getenv('TWILIO_TO_NUM')
 TWILIO_FROM_NUM = getenv('TWILIO_FROM_NUM')
@@ -26,8 +26,8 @@ MIN_DELAY = int(getenv('MIN_DELAY'))
 MAX_DELAY = int(getenv('MAX_DELAY'))
 OPEN_WEB_BROWSER = getenv('OPEN_WEB_BROWSER') == 'true'
 
-with open('sites.json', 'r') as f:
-    sites = json.load(f)
+with open(path.join(sys.path[0], 'sites.json'), 'r') as file:
+    sites = json.load(file)
 
 
 # Twilio Setup
