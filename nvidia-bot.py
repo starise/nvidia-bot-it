@@ -38,7 +38,7 @@ with open(path.join(sys.path[0], 'sites.json'), 'r') as file:
 if TWILIO_TO_NUM and TWILIO_FROM_NUM and TWILIO_SID and TWILIO_AUTH:
     USE_TWILIO = True
 
-    print("Configurazione di Twilio in corso... ", end='')
+    print("[o] Configurazione di Twilio... ", end='')
 
     from twilio.rest import Client
     client = Client(TWILIO_SID, TWILIO_AUTH)
@@ -50,7 +50,7 @@ if TWILIO_TO_NUM and TWILIO_FROM_NUM and TWILIO_SID and TWILIO_AUTH:
 if SENDGRID_API_KEY and SENDGRID_FROM and SENDGRID_TO:
     USE_SENDGRID = True
 
-    print("Configurazione di SendGrid in corso... ", end='')
+    print("[o] Configurazione di SendGrid... ", end='')
 
     from sendgrid import SendGridAPIClient
     from sendgrid.helpers.mail import Mail
@@ -61,7 +61,7 @@ if SENDGRID_API_KEY and SENDGRID_FROM and SENDGRID_TO:
 
 
 # Platform specific settings
-print("Sistema operativo: {}".format(platform))
+print("[i] Sistema operativo: {}".format(platform))
 if platform == OS_WIN:
     from win10toast import ToastNotifier
     toast = ToastNotifier()
@@ -71,7 +71,7 @@ def is_test():
     try:
         if sys.argv[1] == 'test':
             send_alert(sites[0])
-            print("Test completato. Se hai ricevuto le notifiche sei a posto! :)")
+            print("[i] Test completato. Controlla di aver ricevuto tutte le notifiche! :)")
             return True
     except:
         return False
@@ -87,8 +87,8 @@ def get_status(site):
 def send_alert(site):
     product = site.get('name')
     product_url = site.get('url')
-    print("{} DISPONIBILE".format(product))
-    print(product_url)
+    print("[i] {} ORA DISPONIBILE".format(product))
+    print("[i] Link: {}".format(product_url))
     if OPEN_WEB_BROWSER:
         webbrowser.open(product_url, new=1)
     os_notification("{} DISPONIBILE".format(product), product_url)
@@ -112,12 +112,14 @@ def os_notification(title, text):
 
 def sms_notification(url):
     if USE_TWILIO:
+        print("[o] Twilio: invio SMS di notifica... ", end='')
         client.messages.create(to=TWILIO_TO_NUM, from_=TWILIO_FROM_NUM, body=url)
-
+        print("OK!")
 
 def mail_notification(subject, content):
     if USE_SENDGRID:
 
+        print("[o] SendGrid: invio E-mail di notifica... ", end='')
         message = Mail(
             from_email=SENDGRID_FROM,
             to_emails=SENDGRID_TO,
@@ -128,6 +130,7 @@ def mail_notification(subject, content):
             response = sg.send(message)
         except Exception as e:
             print(e.message)
+        print("OK!")
 
 
 def main():
@@ -154,7 +157,7 @@ def main():
                 print("- PRODOTTO: \t {}".format(item['products']['product'][0]['displayName']))
 
                 if item['products']['product'][0]['inventoryStatus']['status'] != "PRODUCT_INVENTORY_OUT_OF_STOCK":
-                    print("  STATO: \t {}".format("DISPONIBILE!!"))
+                    print("  STATO: \t {}".format("DISPONIBILE"))
                     send_alert(site)
                     sleep(ALERT_DELAY)
                 else:
