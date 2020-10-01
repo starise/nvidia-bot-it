@@ -119,7 +119,7 @@ def main():
 
                 if item['products']['product'][0]['inventoryStatus']['status'] != "PRODUCT_INVENTORY_OUT_OF_STOCK":
                     print("  STATO: \t {}".format("DISPONIBILE!!"))
-                    send_alert(url)
+                    send_alert(site)
                     sleep(ALERT_DELAY)
                 else:
                     print("  STATO: \t PRODOTTO ESAURITO")
