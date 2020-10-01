@@ -18,10 +18,10 @@ OS_MAC = "Darwin"
 load_dotenv(path.join(sys.path[0], '.env'))
 USE_TWILIO = False
 USE_SENDGRID = False
-TWILIO_TO_NUM = getenv('TWILIO_TO_NUM')
-TWILIO_FROM_NUM = getenv('TWILIO_FROM_NUM')
 TWILIO_SID = getenv('TWILIO_SID')
 TWILIO_AUTH = getenv('TWILIO_AUTH')
+TWILIO_FROM_NUM = getenv('TWILIO_FROM_NUM')
+TWILIO_TO_NUM = getenv('TWILIO_TO_NUM')
 SENDGRID_API_KEY = getenv('SENDGRID_API_KEY')
 SENDGRID_FROM = getenv('SENDGRID_FROM')
 SENDGRID_TO = getenv('SENDGRID_TO')
@@ -44,6 +44,7 @@ if TWILIO_TO_NUM and TWILIO_FROM_NUM and TWILIO_SID and TWILIO_AUTH:
     client = Client(TWILIO_SID, TWILIO_AUTH)
 
     print("OK!")
+
 
 # SendGrid Setup
 if SENDGRID_API_KEY and SENDGRID_FROM and SENDGRID_TO:
@@ -74,6 +75,7 @@ def is_test():
             return True
     except:
         return False
+
 
 def get_status(site):
     url = site.get('url')
