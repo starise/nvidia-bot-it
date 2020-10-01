@@ -72,7 +72,7 @@ def send_alert(site):
     if OPEN_WEB_BROWSER:
         webbrowser.open(site.get('url'), new=1)
     os_notification("{} DISPONIBILE".format(product), site.get('url'))
-    sms_notification("DISPONIBILE: ", site.get('url'))
+    sms_notification("DISPONIBILE: " + site.get('url'))
 
 
 def os_notification(title, text):
