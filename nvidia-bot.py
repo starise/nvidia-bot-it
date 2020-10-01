@@ -114,8 +114,6 @@ def main():
                     item = get_status(site)
                 except Exception as e:
                     print("[!]  CONNESSIONE FALLITA: {}".format(e))
-                    print("[!]  NUOVO TENTATIVO TRA 2 SECONDI.")
-                    sleep(2)
                     continue
 
                 print("- PRODOTTO: \t {}".format(item['products']['product'][0]['displayName']))
