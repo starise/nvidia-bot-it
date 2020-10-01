@@ -1,0 +1,16 @@
+[
+  {
+  	"name": "NVIDIA GEFORCE RTX 3080",
+    "url": "https://www.nvidia.com/it-it/geforce/graphics-cards/30-series/rtx-3080/",
+    "api": "https://api-prod.nvidia.com/direct-sales-shop/DR/products/it_it/EUR/5438796200",
+    "alert": false,
+    "enabled": true
+  },
+  {
+  	"name": "NVIDIA GEFORCE RTX 3090",
+    "url": "https://www.nvidia.com/it-it/geforce/graphics-cards/30-series/rtx-3090/",
+    "api": "https://api-prod.nvidia.com/direct-sales-shop/DR/products/it_it/EUR/5438796100,5438796400",
+    "alert": false,
+    "enabled": false
+  }
+]
